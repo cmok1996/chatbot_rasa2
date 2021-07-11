@@ -1,0 +1,123 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- mood_great:
+    use_entities: true
+- mood_unhappy:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- inform:
+    use_entities: true
+- search_provider:
+    use_entities: true
+- thanks:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
+- out_of_scope:
+    use_entities: true
+- chitchat:
+    use_entities: true
+- stop:
+    use_entities: true
+entities:
+- location
+- facility_type
+slots:
+  location:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  facility_type:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  address:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  confirm:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: false
+    influence_conversation: true
+responses:
+  utter_default:
+  - text: I'm sorry, I can't help you with that
+  utter_ask_rephrase:
+  - text: Sorry I didn't get that. Can you rephrase it?
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_how_can_i_help:
+  - text: Hi, I am a medicare locator, how can I help you today?
+  - text: Hello, I am a medicare locator, I can help you find the nearest hospital. How can I help?
+  utter_ask_location:
+  - text: Could you provide me your address please?
+  - text: To find the nearest {facility_type}, please provide your address"
+  utter_search:
+  - text: Alright, finding the nearest hospital for you
+  utter_ask_facility_type:
+  - text: What facility are you looking for?
+  utter_submit:
+  - text: All done
+  utter_ask_confirm:
+  - text: |-
+      You have submitted the following request:
+       - location : {location}
+       - facility: {facility_type}
+       Is this information correct?
+  utter_ask_continue:
+  - text: Are you sure you want to stop?
+  utter_stop_continue:
+  - text: Request has been interrupted. Please send a new request.
+  utter_continue:
+  - text: Continuing with the request, please proceed.
+actions:
+- action_facility_search
+- action_reset_all_slots
+forms:
+  facility_form:
+    ignored_intents:
+    - chitchat
+    required_slots:
+      confirm:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+      facility_type:
+      - entity: facility_type
+        type: from_entity
+      location:
+      - entity: location
+        type: from_entity
+e2e_actions: []

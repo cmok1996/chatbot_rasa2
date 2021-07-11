@@ -1,0 +1,140 @@
+version: "2.0"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_how_can_i_help
+  - intent: search_provider
+  - action: facility_form
+  - active_loop: facility_form
+  - active_loop: null
+  - slot_was_set:
+    - confirm: true
+  - action: action_facility_search
+  - action: action_reset_all_slots
+  - intent: thanks
+  - action: utter_goodbye
+
+- story: incorrect form
+  steps:
+  - intent: greet
+  - action: utter_how_can_i_help
+  - intent: search_provider
+  - action: facility_form
+  - active_loop: facility_form
+  - active_loop: null
+  - slot_was_set:
+    - confirm: false
+  - action: utter_stop_continue
+  - action: action_reset_all_slots
+
+- story: User interrupts the form and doesn't want to continue
+  steps:
+  - intent: search_provider
+  - action: facility_form
+  - active_loop: facility_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_stop_continue
+  - action: action_reset_all_slots
+
+- story: User interrupts the form but wants to continue after prompt
+  steps:
+  - intent: search_provider
+  - action: facility_form
+  - active_loop: facility_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - active_loop: facility_form
+  - action: utter_continue
+
+# - story: happy_path
+#   steps:
+#   - intent: greet
+#   - action: utter_how_can_i_help
+#   - intent: search_provider
+#   - action: facility_form
+#   - active_loop: facility_form 
+
+# - story: happy path
+#   steps:
+#   - intent: greet
+#   - action: utter_how_can_i_help
+#   - intent: inform
+#     entities: 
+#     - facility_type: "rbry-mqwu"
+#   - action: facility_form
+#   - active_loop: facility_form
+
+#   - action: action_facility_search
+#   #- action: utter_search
+#   - slot_was_set: 
+#     - address: "48 Strathmore Avenue, Queenstown"
+#   - intent: thanks
+#   - action: utter_goodbye
+
+# - story: search hospital happy path
+#   steps:
+#   - intent: greet
+#   - action: utter_how_can_i_help
+#   - intent: search_provider
+#     entities:
+#     - facility_type: "hospital"
+#     - location: "Queenstown"
+#   - action: action_facility_search
+#   #- action: utter_search
+#   - slot_was_set: 
+#     - address: "48 Strathmore Avenue, Queenstown"
+#   - intent: thanks
+#   - action: utter_goodbye
+
+
+# - story: search hospital + location
+#   steps:
+#   - intent: greet
+#   - action: utter_how_can_i_help
+#   - intent: search_provider
+#     entities:
+#     - facility_type: "hospital"
+#   - action: utter_ask_location
+#   - intent: inform
+#     entities:
+#     - location: "Queenstown"
+#   - action: action_facility_search
+#   #- action: utter_search
+#   - intent: thanks
+#   - action: utter_goodbye
+
+# - story: happy path
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_great
+#   - action: utter_happy
+
+# - story: sad path 1
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: affirm
+#   - action: utter_happy
+
+# - story: sad path 2
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: deny
+#   - action: utter_goodbye
+
