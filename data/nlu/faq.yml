@@ -1,0 +1,17 @@
+version: "2.0"
+nlu:
+- intent: faq/clinics
+  examples: |
+    - what is the best clinic
+    - where is the nearest clinic
+    - what is this clinic
+    - which clinic should i choose
+    - should i choose this clinic or that clinic
+
+- intent: faq/cost
+  examples: |
+    - how much does the facility cost
+    - is it expensive
+    - what is the price
+    - which is more affordable
+    - how much do i have to pay

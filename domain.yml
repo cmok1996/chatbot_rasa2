@@ -4,6 +4,7 @@ config:
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+  
 intents:
 - greet:
     use_entities: true
@@ -33,6 +34,9 @@ intents:
     use_entities: true
 - stop:
     use_entities: true
+- faq:
+    use_entites: true
+
 entities:
 - location
 - facility_type
@@ -99,6 +103,9 @@ responses:
   - text: Request has been interrupted. Please send a new request.
   utter_continue:
   - text: Continuing with the request, please proceed.
+
+
+
 actions:
 - action_facility_search
 - action_reset_all_slots
